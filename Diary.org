@@ -1,0 +1,45 @@
+#+TITLE:   WorkLog / Diary
+#+AUTHOR:  MySelf
+#+EMAIL:   nobody@example.com
+#+LATEX: \setlength\parindent{0pt}
+#+OPTIONS: num:nil html-postamble:nil toc:nil
+#+EXPORT_EXCLUDE_TAGS: noexport
+
+* Diary
+This is my worklog introduction, it could be used to explain the purpose, etc.
+
+* Company Details
+This diary was created while working at Example Inc.
+
+** Address
+Example Inc,
+1234 Fake Street
+support@example.com
+
+
+* Diary Proper
+Now follows the actual diary - there is one entry for every day, which was inserted by =M-x org-diary-new-entry=, and which uses the template section at the foot of this document.
+
+To jump to today's entry, if present, run =M-x org-diary-today=
+* 07/02/2022
+** Meetings
+None.
+** Activities
+Went jogging.
+** Tasks
+*** DONE Fill out time sheet
+- I did this
+* 08/02/2022
+** Meetings
+None.
+** Activities
+Went swimming.
+** Tasks
+*** DONE Fill out time sheet
+- I did this
+* DD/MM/YYYY
+** Meetings
+** Activities
+** Tasks
+*** TODO Fill out time sheet
+** END                                                            :noexport:
