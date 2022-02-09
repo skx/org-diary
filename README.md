@@ -15,8 +15,15 @@ within a Diary.org file, as visible in this demonstration repository:
 
 ## Overview
 
-The idea is that you load `Diary.org` and automatically receive a couple
-of common features:
+This is designed for people who wish to maintain a single-file journal,
+be it for a work-log, or private entries.  The journal will contain a new
+entry for every day based upon a standard template.
+
+Every time you create a new entry the same template will be appended to
+the foot of your document, and there is some minimal facilities for jumping
+to today's entry and running customizations.
+
+In short there is:
 
 * The ability to insert a new per-day templated entry.
   * We assume you have some standard activities/actions you wish to complete every day.
@@ -38,13 +45,38 @@ require it:
 
 After that visiting a file named `Diary.org` will automatically load the mode.
 
-You'll need to create a template-entry which will be inserted whenever you run `M-x org-diary-new-entry`, see the example below for details.
+You'll need to create a template-entry which will be inserted whenever you run `M-x org-diary-new-entry`, see the example below for details.  Within the file anything between the two markers `* DD/MM/YYYY` and `* END` will be taken to be the template.
+
+You can see that in the example below.
 
 
 ## Example
 
 There is an example [Diary.org](Diary.org) file contained within this
 repository which demonstrates how things can be used.
+
+
+## Customizations
+
+If you prefer to use a different date-format for your entries change the value of `org-diary-date-format`.
+
+There are hooks available at various points:
+
+* `org-diary-mode-hook`
+  * Called when entering the mode.
+* `org-diary-after-new-entry-hook`
+  * Called after a new entry is inserted.
+* `org-diary-after-today-hook`
+  * Called after you jump to today's entry.
+
+Perhaps you might wish to add a tag with the current week-number when entering a new entry?  You could do that like so:
+
+```lisp
+;; Add a new tag to all entries, after creating them.
+(add-hook 'org-diary-after-new-entry-hook
+          (lambda()
+            (org-set-tags (format-time-string "%Y_week_%V"))))
+```
 
 
 ## Bugs?
