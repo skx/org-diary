@@ -1,5 +1,30 @@
-;; org-diary.el
-;;
+;;; org-diary.el --- A package for maintaining a self-contained diary.
+
+;; Author: Steve Kemp <steve@steve.fi>
+;; Version: 1.0
+;; Keywords: outlines, diary, journal
+;; URL: https://github.com/skx/org-diary
+
+;; Package-Requires: ((emacs "28.0") (org "9.0"))
+
+;; This file is not part of GNU Emacs.
+
+;; This file is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this file.  If not, see <https://www.gnu.org/licenses/>.
+
+
+;;; Commentary:
+
 ;; This is a derived mode of org-mode, which contains a couple of helpers
 ;; for maintaining a simple diary.
 ;;
@@ -24,7 +49,8 @@
 ;; can add a new entry for each new-day.
 ;;
 
-;; For string-trim
+;;; Code:
+
 (eval-when-compile (require 'subr-x))
 
 ;; List of things we expand within a new entry, as we create it.
@@ -49,8 +75,7 @@ Currently supported placeholders include:
 %d is the day as a decimal number (range 01 to 31).
 %V is the ISO 8601 week number as a decimal number (range 01 to 53).
 %a is the locale’s abbreviated name of the day of week, %A the full name.
-%b is the locale's abbreviated name of the month, %B the full name.
-")
+%b is the locale's abbreviated name of the month, %B the full name.")
 
 
 ;; Define a keymap for this mode.
@@ -77,7 +102,7 @@ Currently supported placeholders include:
 
 
 (defun org-diary-today ()
-  "Jump to today's entry within the current org-diary file, if it exists."
+  "Jump to today's entry within the current `org-diary' file, if it exists."
   (interactive)
   (if (not (eq major-mode 'org-diary-mode))
       (error "Error: You're not visiting an org-diary file/buffer"))
@@ -123,7 +148,7 @@ entry, and have its variables expanded."
       (outline-show-all)
       (goto-char (point-min))
       (if (not (re-search-forward "^\* DD/MM/YYYY" (point-max) t))
-          (error "This buffer does not contain a template-block to insert as a new entry."))
+          (error "This buffer does not contain a template-block to insert as a new entry"))
       (beginning-of-line)
       (backward-char 1)
       (setq start (point))
@@ -157,10 +182,12 @@ entry, and have its variables expanded."
           (delete-char -1)))))
 
 (defun org-diary-remove-empty-sections (backend)
-  "If there are any headings which contain only 'empty' content
-then don't show them on export.
+  "Remove empty sections from a diary on export.
 
-Empty here means either literally empty, or having the content 'None' or 'None.'."
+Empty here means either literally empty, or having the content which
+literally reads 'None' or 'None.'.
+
+BACKEND is the name of the exporting backend in-use."
   (save-excursion
     (outline-show-all)
     (goto-char (point-min))
@@ -183,4 +210,7 @@ Empty here means either literally empty, or having the content 'None' or 'None.'
         (message "Loading today's entry")
         (org-diary-today)))
 
+
 (provide 'org-diary)
+
+;;; org-diary.el ends here
