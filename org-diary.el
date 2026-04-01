@@ -66,7 +66,7 @@
 
 
 
-(defvar org-diary-date-format "^\\* %d/%m/%Y"
+(defvar org-diary-date-format "^\\*+ %d/%m/%Y"
   "Format string for matching date-based headers.
 
 Currently supported placeholders include:
@@ -74,7 +74,7 @@ Currently supported placeholders include:
 %m is the month as a decimal number (range 01 to 12).
 %d is the day as a decimal number (range 01 to 31).
 %V is the ISO 8601 week number as a decimal number (range 01 to 53).
-%a is the locale’s abbreviated name of the day of week, %A the full name.
+%a is the locale's abbreviated name of the day of week, %A the full name.
 %b is the locale's abbreviated name of the month, %B the full name.")
 
 
