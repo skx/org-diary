@@ -62,6 +62,9 @@
                                    ( "DD"         . (format-time-string "%d"))
                                    ( "HOUR"       . (format-time-string "%H"))
                                    ( "MINUTE"     . (format-time-string "%M"))
+                                   ;; must come before DAY
+                                   ( "WEEKDAY"    . (format-time-string "%A"))
+                                   ( "DAY"        . (format-time-string "%a"))
                                    ( ":noexport:" . (format ""))))
 
 
@@ -163,7 +166,7 @@ entry, and have its variables expanded."
       (goto-char start)
 
       (dolist (item org-diary-template-variables)
-          (setq text (replace-regexp-in-string (car item) (apply (cdr item)) text)))
+          (setq text (replace-regexp-in-string (car item) (apply (cdr item)) text t nil 0)))
 
         (insert text))))
 
