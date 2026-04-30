@@ -50,10 +50,12 @@ You'll need to create a template-entry which will be inserted whenever you run `
 You can see that in the example below.
 
 
+
 ## Example
 
 There is an example [Diary.org](Diary.org) file contained within this
 repository which demonstrates how things can be used.
+
 
 
 ## Customizations
@@ -77,6 +79,57 @@ Perhaps you might wish to add a tag with the current week-number when entering a
           (lambda()
             (org-set-tags (format-time-string "%Y_week_%V"))))
 ```
+
+
+
+## Alternatives
+
+This repository was archived as I realized there are really two parts to the code:
+
+* Adding a new entry.
+* Opening the diary.org file, and jumping to "today".
+
+The first can be achieved with an org-capture template:
+
+```
+    ;; Worklog
+    (setq org-capture-templates
+        (append org-capture-templates
+          '(("w" "Worklog entry" entry
+             (file+headline "~/Private/Worklog/Diary.org" "Diary")
+         "** %<%d/%m/%Y>    :%<%Y>_week_%<%V>:
+*** Meetings
+**** Daily                                               :daily:
+<%<%Y-%m-%d %a 10:00-10:15>>
+- https://gitlab.ci.example/groups/private/project/-/boards/457
+\n"
+      :empty-lines 1
+      :immediate-finish t
+      :jump-to-captured t))))
+
+```
+
+The second via a simple wrapper:
+
+```
+(defun skx-load-diary ()
+  "Load my diary/work-log, and jump to today's entry.
+
+If the buffer was already loaded then leave the folding alone, otherwise
+attempt to be pretty by showing the structure."
+  (interactive)
+  (let* ((file (expand-file-name "~/Private/Worklog/Diary.org"))
+         (buf  (get-file-buffer file))
+         (already-open (buffer-live-p buf)))
+    (find-file file)
+    (unless already-open
+      ;; Only run this the first time the file is opened
+      (outline-show-all)
+      (outline-hide-sublevels 4))
+    (goto-char (point-min))
+    (re-search-forward (concat "^\\*+ " (format-time-string "%d/%m/%Y")) nil t)))
+```
+
 
 
 ## Bugs?
